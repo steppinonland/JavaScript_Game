@@ -1,0 +1,27 @@
+.container {
+    width: 800px;
+    margin: 3em;
+    padding: 1em;
+}
+
+.h4 {
+    margin: 1em;
+    border-bottom-style: solid;
+    padding-bottom: 2%;
+    border-bottom-width: 7px;
+    border-bottom-color: cornflowerblue;
+}
+
+.btn-grid {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 1em;
+    margin: 2em 0;
+}
+.btn {
+    border: 1px solid dodgerblue;
+}
+
+.hide {
+    display: none;
+}

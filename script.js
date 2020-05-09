@@ -14,6 +14,6 @@ prepareQuiz.addEventListener("click", function() {
      completeQuiz();
  }    
 // update the timer on page 
-document.getElementById("timer").innerHTML = timer + "seconds";
+document.getElementById("timer").innerHTML = timer + " seconds";
     }, 1000); 
 }); 
