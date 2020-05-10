@@ -4,6 +4,7 @@ var quizboxElement = document.getElementById("quiz-box");
 var questionEl = document.getElementById("question-text");
 var buttonEl = document.getElementById("answer-buttons");
 var sectionEl = document.getElementById("quizSection");
+var increaseWrong = document.getElementById("wrongQuestions");
 var timer = 75;
 var randQuestions, currentQuestionIndex;
 
@@ -68,6 +69,9 @@ function setStatusClass(element, correct) {
     } else {
         element.classList.add('wrong');
         timerEl.textContent = timer - 3;
+        var wrongEl = increaseWrong.createElement("li");
+        wrongEl.textContent = wrongEl.value + 1;
+        increaseWrong.appendChild(wrongEl);
     }
 }
 // this clears out the right and wrong values for the next question to appear
