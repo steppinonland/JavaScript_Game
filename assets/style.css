@@ -1,7 +1,11 @@
 .container {
-    width: 800px;
-    margin: 3em;
-    padding: 1em;
+    width: 75%;
+    margin: 1em 4em;
+    padding: 1em 4em;
+}
+
+.h1 {
+    margin: 8px;
 }
 
 .h4 {
@@ -10,6 +14,15 @@
     padding-bottom: 2%;
     border-bottom-width: 7px;
     border-bottom-color: cornflowerblue;
+}
+button#leggo {
+    width: 8em;
+    margin: 2%;
+}
+
+.container-dash {
+    width: 40%;
+    margin: 1%;
 }
 
 .btn-grid {
@@ -20,6 +33,21 @@
 }
 .btn {
     border: 1px solid dodgerblue;
+}
+
+span.badge.badge-wrong.badge-pill {
+    color: black;
+    background-color: palevioletred;
+}
+
+span.badge.badge-correct.badge-pill {
+    color: black;
+    background-color: palegreen;
+}
+
+span.badge.badge-score.badge-pill {
+    color: black;
+    background-color: lightskyblue;
 }
 
 .hide {
