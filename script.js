@@ -7,71 +7,69 @@ var sectionEl = document.getElementById("quizSection");
 var timer = 75;
 var randQuestions, currentQuestionIndex;
 
+prepareQuiz.addEventListener("click", startQuiz);
+
 function startQuiz() {
-    prepareQuiz.classList.add('hide')
-    randQuestions = questions.sort(() => Math.random() - .5)
-    currentQuestionIndex = 0
-    quizboxElement.classList.remove('hide')
+    prepareQuiz.classList.add('hide');
+    randQuestions = questions.sort(() => Math.random() - .5);
+    currentQuestionIndex = 0;
+    quizboxElement.classList.remove('hide');
     questionHopper()
 }
 
 function displayQuestion(question) {
-
+    questionEl.innerText = question.question
+    question.answers.forEach(answer => {
+        const button = document.createElement('button');
+        button.innerText = answer.textbutton.classList.add('btn');
+        if (answer.correct) {
+            button.dataset.correct = answer.correct
+        };
+        button.addEventListener("click", chooseAnswer);
+        buttonEl.appendChild(button);
+    })
 }
 
 
 
 function questionHopper() {
-    resetQuestion()
-    showQuestion(randQuestions[currentQuestionIndex])
-}
-function showQuestion(question) {
-    questionEl.innerText = question.question
-    question.answers.forEach(answer => {
-        const button = document.createElement('button')
-        button.innerText = answer.textbutton.classList.add('btn')
-        if (answer.correct) {
-            button.dataset.correct = answer.correct
-        }
-        button.addEventListener("click", chooseAnswer)
-        buttonEl.appendChild(button)
-    })
+    displayQuestion(randQuestions[currentQuestionIndex]);
 }
 
 function resetQuestion() {
     clearStatusClass()
     while (buttonEl.firstChild) {
-        buttonEl.removeChild(buttonEl.firstChild)
+        buttonEl.removeChild(buttonEl.firstChild);
     }
 }
 
 function chooseAnswer(e) {
     const selectedButton = e.target
     const correct = selectedButton.dataset.correct
-    setStatusClass(document.body, correct)
+    setStatusClass(document.body, correct);
     Array.from(buttonEl.children).forEach(button => {
-        setStatusClass(button, button.dataset.correct)
+        setStatusClass(button, button.dataset.correct);
     })
     if (randQuestions.length > currentQuestionIndex + 1) {
 
     } else {
         prepareQuiz.innerText = 'Restart'
-        prepareQuiz.classList.remove('hide')
+        prepareQuiz.classList.remove('hide');
     }
 
 }
 function setStatusClass(element, correct) {
-    clearStatusClass(element)
+    clearStatusClass(element);
     if (correct) {
-        element.classList.add('correct')
+        element.classList.add('correct');
     } else {
-        element.classList.add('wrong')
+        element.classList.add('wrong');
     }
 }
 
 function clearStatusClass(element) {
-    element.classList.remove('correct')
-    element.classList.remove('wrong')
+    element.classList.remove('correct');
+    element.classList.remove('wrong');
 }
 
 const questions = [
@@ -287,10 +285,9 @@ prepareQuiz.addEventListener("click", function() {
         timer--;
 
         //if timer runs out
-        if(timer === 0)
- {
-     clearInterval(createTimer);
-     completeQuiz();
+        if(timer === 0) {
+            clearInterval(createTimer);
+            completeQuiz();
  }    
 // update the timer on page 
 document.getElementById("timer").innerHTML = timer + " seconds";
