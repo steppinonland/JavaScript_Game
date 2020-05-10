@@ -1,9 +1,31 @@
 var prepareQuiz = document.querySelector("#leggo");
 var timerEl = document.getElementById("timer");
+var quizboxElement = document.getElementById("quiz-box");
+var questionEl = document.getElementById("question-text");
+var buttonEl = document.getElementById("answer-buttons");
+var sectionEl = document.getElementById("quizSection");
 var timer = 75;
+var randQuestions, currentQuestionIndex;
 
-const randQuestions, currentQuestionIndex
+function startQuiz() {
+    prepareQuiz.classList.add('hide')
+    randQuestions = questions.sort(() => Math.random() - .5)
+    currentQuestionIndex = 0
+    quizboxElement.classList.remove('hide')
+    questionHopper()
+}
 
+function displayQuestion(question) {
+
+}
+
+function chooseAnswer() {
+
+}
+
+function questionHopper() {
+    showQuestion(randQuestions[currentQuestionIndex])
+}
 const questions = [
     {
         question: 'what is the first letter of the alphabet?',
@@ -14,26 +36,21 @@ const questions = [
             { text: 'D', correct: false },
         ]
     }
+
 ]
 
-function startQuiz() {
-    console.log('Started')
-    startButton.classList.add('hide')
-    randQuestions = questions.sort(() => Math.random() - .5)
-    currentQuestionIndex = 0
-    quizboxElement.classList.remove('hide')
-    questionHopper()
-}
+function completeQuiz() {
+    timerEl.textContent = " ";
 
-function displayQuestion(question) {
-    
-}
+    var quizEnd = document.createElement("div");
+    var qo = document.createElement("h1");
 
-function chooseAnswer() {
+    quizEnd.setAttribute("style", "margin:auto; width:50%; text-align:center;");
+    qo.setAttribute("style", "margin:auto; width: 50%; text-align:center; color:red;");
 
-}
+    qo.textContent = "QUIZ IS OVER. THANKS FOR PLAYING!";
 
-function questionHopper() {
+    quizEnd.appendChild(qo);
 
 }
 
@@ -52,3 +69,4 @@ prepareQuiz.addEventListener("click", function() {
 document.getElementById("timer").innerHTML = timer + " seconds";
     }, 1000); 
 }); 
+
