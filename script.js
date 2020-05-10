@@ -36,6 +36,8 @@ function displayQuestion(question) {
 
 function questionHopper() {
     displayQuestion(randQuestions[currentQuestionIndex]);
+    resetQuestion ();
+    chooseAnswer ();
 }
 
 function resetQuestion() {
