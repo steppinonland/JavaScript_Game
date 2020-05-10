@@ -4,6 +4,7 @@ var quizboxElement = document.getElementById("quiz-box");
 var questionEl = document.getElementById("question-text");
 var buttonEl = document.getElementById("answer-buttons");
 var sectionEl = document.getElementById("quizSection");
+var increaseWrong = document.getElementById("wrongQuestions");
 var timer = 75;
 var randQuestions, currentQuestionIndex;
 
@@ -20,8 +21,9 @@ function startQuiz() {
 function displayQuestion(question) {
     questionEl.innerText = question.question
     question.answers.forEach(answer => {
-        const button = document.createElement('button');
-        button.innerText = answer.textbutton.classList.add('btn');
+        var button = document.createElement('button');
+        button.innerText = answer.text;
+        button.classList.add('btn');
         if (answer.correct) {
             button.dataset.correct = answer.correct
         };
@@ -34,6 +36,8 @@ function displayQuestion(question) {
 
 function questionHopper() {
     displayQuestion(randQuestions[currentQuestionIndex]);
+    resetQuestion ();
+    chooseAnswer ();
 }
 
 function resetQuestion() {
@@ -52,21 +56,27 @@ function chooseAnswer(e) {
     })
     if (randQuestions.length > currentQuestionIndex + 1) {
 
+
     } else {
         prepareQuiz.innerText = 'Restart'
         prepareQuiz.classList.remove('hide');
     }
 
 }
+// this is how the answers get determined as correct and incorrect
 function setStatusClass(element, correct) {
     clearStatusClass(element);
     if (correct) {
         element.classList.add('correct');
     } else {
         element.classList.add('wrong');
+        timerEl.textContent = timer - 3;
+        var wrongEl = increaseWrong.createElement("li");
+        wrongEl.textContent = wrongEl.value + 1;
+        increaseWrong.appendChild(wrongEl);
     }
 }
-
+// this clears out the right and wrong values for the next question to appear
 function clearStatusClass(element) {
     element.classList.remove('correct');
     element.classList.remove('wrong');
@@ -263,7 +273,8 @@ const questions = [
         ]
     }
 ]
-
+// this should display a heading that says "QUIZ IS OVER.  THANKS FOR PLAYING"
+// this happens when the timer 
 function completeQuiz() {
     timerEl.textContent = " ";
 
