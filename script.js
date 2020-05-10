@@ -20,8 +20,9 @@ function startQuiz() {
 function displayQuestion(question) {
     questionEl.innerText = question.question
     question.answers.forEach(answer => {
-        const button = document.createElement('button');
-        button.innerText = answer.textbutton.classList.add('btn');
+        var button = document.createElement('button');
+        button.innerText = answer.text;
+        button.classList.add('btn');
         if (answer.correct) {
             button.dataset.correct = answer.correct
         };
@@ -52,21 +53,24 @@ function chooseAnswer(e) {
     })
     if (randQuestions.length > currentQuestionIndex + 1) {
 
+
     } else {
         prepareQuiz.innerText = 'Restart'
         prepareQuiz.classList.remove('hide');
     }
 
 }
+// this is how the answers get determined as correct and incorrect
 function setStatusClass(element, correct) {
     clearStatusClass(element);
     if (correct) {
         element.classList.add('correct');
     } else {
         element.classList.add('wrong');
+        timerEl.textContent = timer - 3;
     }
 }
-
+// this clears out the right and wrong values for the next question to appear
 function clearStatusClass(element) {
     element.classList.remove('correct');
     element.classList.remove('wrong');
@@ -263,7 +267,8 @@ const questions = [
         ]
     }
 ]
-
+// this should display a heading that says "QUIZ IS OVER.  THANKS FOR PLAYING"
+// this happens when the timer 
 function completeQuiz() {
     timerEl.textContent = " ";
 
