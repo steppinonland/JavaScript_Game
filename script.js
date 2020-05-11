@@ -1,5 +1,6 @@
 var prepareQuiz = document.querySelector("#leggo");
-var timerEl = document.getElementById("timer");
+var nextQ = document.querySelector("#nextOne");
+var timerEl = document.querySelector("#timer");
 var quizboxElement = document.getElementById("quiz-box");
 var questionEl = document.getElementById("question-text");
 var buttonEl = document.getElementById("answer-buttons");
@@ -24,20 +25,19 @@ function displayQuestion(question) {
         var button = document.createElement('button');
         button.innerText = answer.text;
         button.classList.add('btn');
-        if (answer.correct) {
-            button.dataset.correct = answer.correct
-        };
+        // if () {
+        button.getAttribute.correct = answer.correct
+            if (answer.correct = true) {
+
+            }
+        // };
         button.addEventListener("click", chooseAnswer);
         buttonEl.appendChild(button);
     })
 }
 
-
-
 function questionHopper() {
     displayQuestion(randQuestions[currentQuestionIndex]);
-    resetQuestion ();
-    chooseAnswer ();
 }
 
 function resetQuestion() {
@@ -55,8 +55,6 @@ function chooseAnswer(e) {
         setStatusClass(button, button.dataset.correct);
     })
     if (randQuestions.length > currentQuestionIndex + 1) {
-
-
     } else {
         prepareQuiz.innerText = 'Restart'
         prepareQuiz.classList.remove('hide');
@@ -67,19 +65,16 @@ function chooseAnswer(e) {
 function setStatusClass(element, correct) {
     clearStatusClass(element);
     if (correct) {
-        element.classList.add('correct');
+        element.getAttribute('correct');
     } else {
-        element.classList.add('wrong');
-        timerEl.textContent = timer - 3;
-        var wrongEl = increaseWrong.createElement("li");
-        wrongEl.textContent = wrongEl.value + 1;
-        increaseWrong.appendChild(wrongEl);
+        element.getAttribute('wrong');
+        timer.value = timer -3;
     }
 }
 // this clears out the right and wrong values for the next question to appear
 function clearStatusClass(element) {
-    element.classList.remove('correct');
-    element.classList.remove('wrong');
+    element.removeAttribute('correct');
+    element.removeAttribute('wrong');
 }
 
 const questions = [
@@ -276,30 +271,22 @@ const questions = [
 // this should display a heading that says "QUIZ IS OVER.  THANKS FOR PLAYING"
 // this happens when the timer 
 function completeQuiz() {
+    clearInterval(createTimer);
     timerEl.textContent = " ";
-
-    var quizEnd = document.createElement("div");
-    var qo = document.createElement("h1");
-
-    quizEnd.setAttribute("style", "margin:auto; width:50%; text-align:center;");
-    qo.setAttribute("style", "margin:auto; width: 50%; text-align:center; color:red;");
-
-    qo.textContent = "QUIZ IS OVER. THANKS FOR PLAYING!";
-
-    quizEnd.appendChild(qo);
-
-}
+    let quizEnd = document.createElement("h1");
+    quizEnd.textContent = "QUIZ IS OVER. THANKS FOR PLAYING!";
+    document.body.appendChild(quizEnd);
+  }  
 
 prepareQuiz.addEventListener("click", function() {
     var createTimer = setInterval(function () {
         // runs every second
         timer--;
-
         //if timer runs out
-        if(timer === 0) {
+        if(timer <= -1) {
             clearInterval(createTimer);
             completeQuiz();
- }    
+        }
 // update the timer on page 
 document.getElementById("timer").innerHTML = timer + " seconds";
     }, 1000); 
