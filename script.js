@@ -5,8 +5,6 @@ var buttonEl = document.getElementById("answer-buttons");
 let increaseWrong = document.getElementById("wrongQuestions");
 var nextQ = document.getElementById("nxt-button");
 var timer = 75;
-let currentQuestionIndex = 0;
-
 
 const questionArray = [
     {
@@ -94,26 +92,31 @@ function startQuiz () {
 
 function displayQuestions(questionArray) {
     questionEl.innerText = questionArray.title;
-    buttonEl.textContent(questionArray.choices);
-    var choiceButton = document.createElement('button');
-    for (var i = 0; i < questionArray.length; i++) {
-        choiceButton.classList.add('btn');
-        choiceButton.setAttribute(choices[i]);
-        choiceButton.addEventListener("click", checkAnswers);
-        buttonEl.appendChild(choiceButton);
-        choiceButton.innerText = questionArray[currentQuestionIndex].choices;
+    var button = document.createElement('button');
+    questionArray.choices.forEach(fixButtons);
+
+    function fixButtons() {
+        for ( var i = 0; i < questionArray.length; i++) {
+            var buttonText = document.createTextNode(questionArray.choices);
+            button.addEventListener("click", checkAnswers);
+            button.appendChild(buttonText);
+            buttonEl.appendChild(button);
+            button.addEventListener("click", function (event) {
               // if answer is incorrect
-            if (
-                event.target.value !== questionArray[currentQuestionIndex].answer.value
-            ) { timer -= 3;
-            } else {
+              if (
+                event.target.value !== questions[currentQuestion].correctAnswer.value
+              ) {
+                timer -= 3;
+              } else {
                 // answer is correct
-                event.target.value === questionArray[currentQuestionIndex].answer.value;
+                event.target.value === questions[currentQuestion].correctAnswer.value;
                 // points++;
-            }
+              }
+            });
         }
-        
+    }
 }
+    
   
   function nextUp(questionsArray) {
     displayQuestions(questionsArray++);
@@ -139,4 +142,3 @@ function completeQuiz() {
     quizEnd.textContent = "QUIZ IS OVER. THANKS FOR PLAYING!";
     document.body.appendChild(quizEnd);
   }
-  
