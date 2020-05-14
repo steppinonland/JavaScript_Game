@@ -5,6 +5,8 @@ var buttonEl = document.getElementById("answer-buttons");
 let increaseWrong = document.getElementById("wrongQuestions");
 var nextQ = document.getElementById("nxt-button");
 var timer = 75;
+let currentQuestionIndex = 0;
+
 
 const questionArray = [
     {
@@ -91,14 +93,26 @@ function startQuiz () {
 }
 
 function displayQuestions(questionArray) {
-    questionEl.innerText = questionArray.title
-    questionArray.choices.forEach(choices => {
-        var button = document.createElement('button');
-        button.innerText = choices.text;
-        button.classList.add('btn');
-        button.addEventListener("click", checkAnswers);
-        buttonEl.appendChild(button);
-    });
+    questionEl.innerText = questionArray.title;
+    buttonEl.textContent(questionArray.choices);
+    var choiceButton = document.createElement('button');
+    for (var i = 0; i < questionArray.length; i++) {
+        choiceButton.classList.add('btn');
+        choiceButton.setAttribute(choices[i]);
+        choiceButton.addEventListener("click", checkAnswers);
+        buttonEl.appendChild(choiceButton);
+        choiceButton.innerText = questionArray[currentQuestionIndex].choices;
+              // if answer is incorrect
+            if (
+                event.target.value !== questionArray[currentQuestionIndex].answer.value
+            ) { timer -= 3;
+            } else {
+                // answer is correct
+                event.target.value === questionArray[currentQuestionIndex].answer.value;
+                // points++;
+            }
+        }
+        
 }
   
   function nextUp(questionsArray) {
