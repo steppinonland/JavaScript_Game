@@ -91,15 +91,31 @@ function startQuiz () {
 }
 
 function displayQuestions(questionArray) {
-    questionEl.innerText = questionArray.title
-    questionArray.choices.forEach(choices => {
-        var button = document.createElement('button');
-        button.innerText = choices.text;
-        button.classList.add('btn');
-        button.addEventListener("click", checkAnswers);
-        buttonEl.appendChild(button);
-    });
+  questionEl.innerText = questionArray.title;
+  var button = document.createElement('button');
+    button.innerText = questionArray.choices;
+    button.addEventListener("click", checkAnswers);
+    button.classList.add('btn');
+    buttonEl.appendChild(button);
+  for ( var i = 0; i < questionArray.length; i++) {
+    
+    button.addEventListener("click", function (event) {
+      // if answer is incorrect
+      if (
+        event.target.value !== questions[currentQuestionIndex].correctAnswer.value
+      ) {
+        timer -= 3;
+      } else {
+        // answer is correct
+        event.target.value === questions[currentQuestionIndex].correctAnswer.value;
+        // points++;
+      }
+  });
+  
+      
 }
+}
+    
   
   function nextUp(questionsArray) {
     displayQuestions(questionsArray++);
@@ -125,4 +141,3 @@ function completeQuiz() {
     quizEnd.textContent = "QUIZ IS OVER. THANKS FOR PLAYING!";
     document.body.appendChild(quizEnd);
   }
-  
