@@ -124,9 +124,20 @@ function displayQuestions(questionArray) {
         amtCorrect++;
       }
 }
+
+var highScoreAsk = prompt("Enter in your name below to save this to your Highscores!")
+var saveScore = confirm("Do you want to save this to your Highscores?");
 function completeQuiz() {
     timerEl.textContent = " ";
     let quizEnd = document.createElement("h1");
     quizEnd.textContent = "QUIZ IS OVER. THANKS FOR PLAYING!";
-    document.body.appendChild(quizEnd);
+    document.body.appendChild(quizEnd, saveScore);
+    if (saveScore) {
+        highScoreAsk;
+    } else {
+      return;
+    }
+
+
+
   }
