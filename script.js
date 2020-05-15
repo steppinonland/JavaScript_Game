@@ -2,7 +2,6 @@ let prepareQuiz = document.querySelector("#leggo");
 let timerEl = document.querySelector("#timer");
 let questionEl = document.getElementById("question-text");
 var buttonEl = document.getElementById("answer-buttons");
-let increaseWrong = document.getElementById("wrongQuestions");
 var nextQ = document.getElementById("nxt-button");
 var timer = 75;
 
@@ -89,52 +88,42 @@ function startQuiz () {
     prepareQuiz.classList.add('hide');
     currentQuestionIndex = 0;
 }
+var scoreboard = 0;
+var amtCorrect = 0;
+var amtWrong = 0;
+
+document.getElementById("scoreboard").innerHTML = scoreboard;
+document.getElementById("correctQuestions").innerHTML = amtCorrect;
+document.getElementById("wrongQuestions").innerHTML = amtWrong;
+
 
 function displayQuestions(questionArray) {
   questionEl.innerText = questionArray.title;
-  var button = document.createElement('button');
-    button.innerText = questionArray.choices;
+  questionArray.choices.forEach((choice) => {
+    var button = document.createElement('button');
+    button.innerText = choice;
     button.addEventListener("click", checkAnswers);
     button.classList.add('btn');
     buttonEl.appendChild(button);
-  for ( var i = 0; i < questionArray.length; i++) {
+  });
+}
     
-    button.addEventListener("click", function (event) {
-      // if answer is incorrect
-      if (
-        event.target.value !== questions[currentQuestionIndex].correctAnswer.value
-      ) {
-        timer -= 3;
-      } else {
-        // answer is correct
-        event.target.value === questions[currentQuestionIndex].correctAnswer.value;
-        // points++;
-      }
+  nextQ.addEventListener(function nextUp(questionArray) {
+    displayQuestions(questionArray);
   });
   
-      
-}
-}
-    
-  
-  function nextUp(questionsArray) {
-    displayQuestions(questionsArray++);
-  }
-  
   function checkAnswers(event) {
-    const selectedButton = event.target;
-    // const answer = selectedButton.dataset.correct;
-    //check for correct answer here
-    if (selectedButton.className === "answer") {
-      // need to add to HTML id correctAnswerCount
-      console.log("CORRECT");
-      nextUp()
-    } else {
-      // need to add to HTML id wrongAnswerCount
-      console.log("INCORRECT");
-      nextUp()
-    }
-  }
+    const selectedButton = event.target.value;
+    if (selectedButton !== questionArray[currentQuestionIndex].answer.value) {
+        timerEl.innerHTML = timer - 3;
+        amtWrong++;
+      } else {
+        // answer is correct
+        event.target.value === questionArray[currentQuestionIndex].answer.value;
+        scoreboard += 5;
+        amtCorrect++;
+      }
+}
 function completeQuiz() {
     timerEl.textContent = " ";
     let quizEnd = document.createElement("h1");
