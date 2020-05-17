@@ -1,18 +1,20 @@
 const prepareQuiz = document.querySelector("#leggo");
 const timerEl = document.querySelector("#timer");
+const quizEl = document.getElementById("quiz-box");
 const questionEl = document.getElementById("question-text");
 const buttonEl = document.getElementById("answer-buttons");
 const nextQ = document.getElementById("nextOne");
 const scoreboardEl = document.getElementById("scoreboard");
 const correctEl = document.getElementById("correctQuestions");
 const wrongEl = document.getElementById("wrongQuestions");
+var quizEnd = document.getElementById("endgame");
+var initials = document.getElementById("initials");
 
 var timer = 75;
 var scoreboard = 0;
 var amtCorrect = 0;
 var amtWrong = 0;
 var currentQuestionIndex = 0;
-
 const questionArray = [
   {
     title: "Which of the following are considered FALSEY values?",
@@ -92,14 +94,17 @@ const questionArray = [
   },
 ];
 
-function startQuiz() {
-  let randomIndex = Math.floor(Math.random() * questionArray.length);
-  displayQuestions(questionArray[randomIndex]);
+function getQuestion() {
+  if (currentQuestionIndex === questionArray.length - 1) {
+    completeQuiz()
+  } else {displayQuestions(questionArray[currentQuestionIndex]);
   prepareQuiz.classList.add("hide");
-  currentQuestionIndex = randomIndex;
+  }
 }
 
 function displayQuestions(questionArray) {
+  // clear the prev question choices butns
+  // btuttonEl.innerHTML = ''
   questionEl.innerText = questionArray.title;
   questionArray.choices.forEach((choice) => {
     var button = document.createElement("button");
@@ -110,42 +115,78 @@ function displayQuestions(questionArray) {
   });
 }
 
-function nextUp(questionArray) {
-  displayQuestions(questionArray);
-}
-
 function checkAnswers(event) {
   const selectedButton = event.target.innerText;
   const currentQuestion = questionArray[currentQuestionIndex]
 
-  console.log(selectedButton, currentQuestion.correct)
   if (selectedButton !== currentQuestion.correct) {
-    console.log('bad')
     timer -= 3
-    timerEl.innerHTML = timer + "Seconds";
+    timerEl.innerHTML = timer + " seconds";
+    // increment wrongs
+    amtWrong++;
+    wrongEl.innerHTML = amtWrong;
+    // update DOM
   } else {
-    console.log('good')
     // answer is correct
-    event.target.value === currentQuestion.correct;
     scoreboard += 5;
     amtCorrect++;
+    scoreboardEl.innerHTML = scoreboard;
+    correctEl.innerHTML = amtCorrect;
+    // update the DOM
   }
+  // load next question
+  nextQ.addEventListener("click", function() {
+        questionEl.innerText = " ";
+        buttonEl.innerText = " ";
+        if (currentQuestionIndex <= questionArray.length - 1) {
+          getQuestion(currentQuestionIndex++)
+        } else {
+          completeQuiz ()
+          questionEl.innerText = " ";
+          buttonEl.innerText = " ";
+        }
+      });
 }
 
-// var highScoreAsk = prompt(
-//   "Enter in your name below to save this to your Highscores!"
-// );
-// var saveScore = confirm("Do you want to save this to your Highscores?");
 function completeQuiz() {
-  timerEl.textContent = " ";
-  let quizEnd = document.createElement("h1");
-  quizEnd.textContent = "QUIZ IS OVER. THANKS FOR PLAYING!";
-  document.body.appendChild(quizEnd, saveScore);
-  if (saveScore) {
-    highScoreAsk;
-  } else {
-    return;
-  }
+  // hide all of the instructions/beginning stuff using setAttribute("clss", "hide");
+  quizEnd.removeAttribute("class", "hide");
+  initials.removeAttribute("class", "hide");
+  timer = 0;
+  timerEl.innerHTML = timer;
+  let scoresButton = document.createElement("button");
+  scoresButton.innerText = "Save Score";
+  document.body.appendChild(scoresButton);
+  scoresButton.addEventListener("click", function (event) {
+    var scoreStorage = JSON.parse(localStorage.getItem("scoreboard")) || [];
+    scoreStorage.push({
+      initials: document.getElementById("initials").value,
+      scores: scoreboard,
+    });
+    localStorage.setItem("scores", JSON.stringify(scores));
+
+    initials.setAttribute("class", "hide");
+    document.getElementById("scoreboard").setAttribute("class", "hide");
+
+    for (var i = 0; i < scoreStorage.length; i++) {
+      var li = document.createElement("li");
+      li.innerHTML = scoreStorage[i].initials + " " + scoreboard;
+      document.getElementById("scoresList").append(li);
+    }
+  });
+  // const saveScore = confirm("Game over. Thanks for playing! Do you want to save this to your Highscores?");
+  // const enterName = prompt("Enter your name to display on the Highscores!");
+  // if (saveScore) {
+  //   enterName
+  // } else {
+  //   return;
+  // } if (enterName) {
+  //   localStorage.setItem(enterName)
+  // }
+  // var highScoreStorage = document.getElementById("Highscores");
+  // var anythingSaved = localStorage.getItem
+  // var localHighScores = alert(anythingSaved);
+  // highScoreStorage.addEventListener("click", localHighScores)
 }
 
 function init() {
@@ -162,7 +203,7 @@ function init() {
       timerEl.innerHTML = timer + " seconds";
     }, 1000);
   });
-  prepareQuiz.addEventListener("click", startQuiz);
+  prepareQuiz.addEventListener("click", getQuestion);
   scoreboardEl.innerHTML = scoreboard;
   correctEl.innerHTML = amtCorrect;
   wrongEl.innerHTML = amtWrong;
