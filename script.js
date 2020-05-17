@@ -153,7 +153,7 @@ function completeQuiz() {
   quizEnd.removeAttribute("class", "hide");
   initials.removeAttribute("class", "hide");
   timer = 0;
-  timerEl.innerHTML = timer;
+  timerEl.setAttribute("class", "hide");
   let scoresButton = document.createElement("button");
   scoresButton.innerText = "Save Score";
   document.body.appendChild(scoresButton);
